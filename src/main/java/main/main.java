@@ -1,7 +1,9 @@
 package main;
 
+import controller.Controller;
+
 public class main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
+        Controller.getInstance().init();
     }
 }

@@ -1,8 +1,6 @@
 package model;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 public class Hotel {
     private String nombre;
@@ -16,6 +14,12 @@ public class Hotel {
 
     public Hotel(String nombre) {
         this.nombre = "HotelTCP";
+        this.habitaciones = new HashSet<>();
+        this.tecnicos = new ArrayList<>();
+        this.dinero = 0;
+        this.dia = 0;
+        this.personasPerdidas = 0;
+        this.open = false;
     }
 
 

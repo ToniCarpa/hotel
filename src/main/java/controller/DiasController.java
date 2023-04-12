@@ -15,7 +15,7 @@ public class DiasController implements Runnable {
     public void run() {
         while(hotel.isOpen()){
             try {
-                Thread.sleep( 2000);
+                Thread.sleep( 2000); // OR WAIT
                 hotel.setDia(hotel.getDia()+1);
                 panelHotel.actualizar();
             } catch (InterruptedException e) {
