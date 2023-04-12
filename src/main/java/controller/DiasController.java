@@ -1,24 +1,26 @@
 package controller;
 
 import model.Hotel;
+import view.PanelHotel;
 
 public class DiasController implements Runnable {
-    private int sleep;
+    private PanelHotel panelHotel;
+    private Hotel hotel;
 
-    public DiasController(int sleep) {
-        this.sleep = sleep;
+    public DiasController(PanelHotel panelHotel) {
+        this.panelHotel = panelHotel;
     }
 
     @Override
     public void run() {
-        for (int i = 0; i < 2000; i++) {
+        while(hotel.isOpen()){
             try {
-                Thread.sleep(sleep * 2000);
-                //panelHotel.actualizar();
+                Thread.sleep( 2000);
+                hotel.setDia(hotel.getDia()+1);
+                panelHotel.actualizar();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
-
         }
     }
 }

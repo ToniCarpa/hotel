@@ -1,6 +1,7 @@
 package model;
 
 import utils.enums.TipoHabitacion;
+import view.PanelHotel;
 
 public class Cliente implements Runnable{
     private int id;
