@@ -13,7 +13,7 @@ public class DiasController implements Runnable {
 
     @Override
     public void run() {
-        while(hotel.isOpen()){
+        do{
             try {
                 Thread.sleep( 2000); // OR WAIT
                 hotel.setDia(hotel.getDia()+1);
@@ -22,5 +22,6 @@ public class DiasController implements Runnable {
                 throw new RuntimeException(e);
             }
         }
+        while(hotel.isOpen());
     }
 }

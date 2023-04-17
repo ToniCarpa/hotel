@@ -9,8 +9,8 @@ import java.util.List;
 
 public class TxtFiles {
 
-    public String read(String nombre) {
-        List txt = new ArrayList<>();
+    public String[] read(String nombre) {
+        List<String> txt = new ArrayList<>();
         try {
             BufferedReader bf = new BufferedReader(new FileReader(nombre));
             String linea = bf.readLine();
@@ -23,6 +23,6 @@ public class TxtFiles {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return txt;
+        return txt.toArray(new String[txt.size()]);
     }
 }

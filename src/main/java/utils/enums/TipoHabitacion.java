@@ -7,7 +7,7 @@ public enum TipoHabitacion {
 
     private final int tipo;
 
-    private TipoHabitacion(int tipo){
+    private TipoHabitacion(final int tipo){
         this.tipo = tipo;
     }
     public int getTipo() {
