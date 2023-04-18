@@ -53,34 +53,5 @@ public class IncidenciasController implements Runnable {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-
-
-                /*
-                while (it.hasNext()) {
-                        String x = String.valueOf(it.next().getNumero());
-                        String l = String.valueOf(x.charAt(0));
-                        if (l.equals(n)) {
-                           it.forEachRemaining(habitacion -> habitacion.setDisponible(EstadoHabitacion.AVERIADA));
-                        }
-                    }
-                } else {
-                    while (it.hasNext()) {
-                        String y = String.valueOf(it.next().getNumero());
-                        if(y.equals(num)){
-                            it.next().setDisponible(EstadoHabitacion.AVERIADA);
-                        }
-                    }
-                }
-            }
-                Thread.sleep(500);
-            } catch(IOException e){
-                throw new RuntimeException(e);
-            } catch(InterruptedException e){
-                throw new RuntimeException(e);
-            }
-        }
-
-                 */
     }
 }
