@@ -23,19 +23,17 @@ public class ClientesController implements Runnable {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(" ");
-
-                int id = Integer.parseInt(datos[0]);
-                String nom = datos[1];
-                TipoHabitacion tipo = TipoHabitacion.valueOf(datos[3].toLowerCase());
-                int dias = Integer.parseInt(datos[4]);
-
-                int numHab = datos[2].length();
+                datos[2].length();
                 String[] habXpers = datos[2].split(",");
 
-                for (int i = 0; i < numHab; i++) {
                     for (int j = 0; j < habXpers.length; j++) {
-                        int numPers = Integer.parseInt(habXpers[j]);
-                        Thread t = new Thread(new Cliente(id, nom, numPers, tipo, dias));
+                        Thread t = new Thread(new Cliente(
+                                        Integer.parseInt(datos[0]),
+                                        datos[1],
+                                        Integer.parseInt(habXpers[j],
+                                                TipoHabitacion.valueOf(datos[3].toLowerCase(),
+                                                        Integer.parseInt(datos[4]),
+                                        panelHotel));
                         t.sleep(500);
                     }
                 }

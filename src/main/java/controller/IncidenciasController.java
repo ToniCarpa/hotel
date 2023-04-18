@@ -50,6 +50,7 @@ public class IncidenciasController implements Runnable {
                         break;
                 }
             }
+            Thread.sleep(500);
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
