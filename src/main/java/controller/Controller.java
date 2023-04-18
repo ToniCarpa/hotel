@@ -23,12 +23,16 @@ public class Controller {
 
             Thread diasContThread = new Thread(new DiasController(panelHotel));
             diasContThread.sleep(2000);
+            diasContThread.start();
             Thread hotelContThread = new Thread(new HotelController(panelHotel));
             hotelContThread.sleep(2000);
+            hotelContThread.start();
             Thread clientesContThread = new Thread(new ClientesController(panelHotel));
             clientesContThread.sleep(2000);
+            clientesContThread.start();
             Thread incidenciasContThread = new Thread(new IncidenciasController(panelHotel));
             incidenciasContThread.sleep(2000);
+            incidenciasContThread.start();
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);

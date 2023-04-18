@@ -5,7 +5,7 @@ import view.PanelHotel;
 
 public class DiasController implements Runnable {
     private PanelHotel panelHotel;
-    private Hotel hotel;
+
 
     public DiasController(PanelHotel panelHotel) {
         this.panelHotel = panelHotel;
@@ -16,12 +16,12 @@ public class DiasController implements Runnable {
         do{
             try {
                 Thread.sleep( 2000); // OR WAIT
-                hotel.setDia(hotel.getDia()+1);
+                panelHotel.getHotel().setDia(panelHotel.getHotel().getDia()+1);
                 panelHotel.actualizar();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }
-        while(hotel.isOpen());
+        while(panelHotel.getHotel().isOpen());
     }
 }

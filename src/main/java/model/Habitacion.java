@@ -25,13 +25,7 @@ public class Habitacion implements Comparable<Habitacion>{
 
     @Override
     public int compareTo(Habitacion o) {
-        if (numero < o.numero) {
-            return 1;
-        }
-        if (numero > o.numero) {
-            return -1;
-        }
-        return 0;
+       return numero - o.numero;
     }
 
     @Override

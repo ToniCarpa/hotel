@@ -1,6 +1,7 @@
 package model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Hotel {
     private String nombre;
@@ -14,7 +15,7 @@ public class Hotel {
 
     public Hotel(String nombre) {
         this.nombre = "HotelTCP";
-        this.habitaciones = new HashSet<>();
+        this.habitaciones = new TreeSet<>();
         this.tecnicos = new ArrayList<>();
         this.dinero = 0;
         this.dia = 0;

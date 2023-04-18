@@ -22,11 +22,11 @@ public class ClientesController implements Runnable {
         try (BufferedReader br = new BufferedReader(new FileReader(Constants.CLI))) {
             String linea;
             while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
+                String[] datos = linea.split(" ");
 
                 int id = Integer.parseInt(datos[0]);
                 String nom = datos[1];
-                TipoHabitacion tipo = TipoHabitacion.valueOf(datos[3]);
+                TipoHabitacion tipo = TipoHabitacion.valueOf(datos[3].toLowerCase());
                 int dias = Integer.parseInt(datos[4]);
 
                 int numHab = datos[2].length();

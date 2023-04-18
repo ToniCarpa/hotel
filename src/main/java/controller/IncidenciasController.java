@@ -11,44 +11,63 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class IncidenciasController implements Runnable {
     private PanelHotel panelHotel;
-    private Hotel hotel;
-
 
     public IncidenciasController(PanelHotel panelHotel) {
         this.panelHotel = panelHotel;
     }
 
+    //P 200 101
     @Override
     public void run() {
         try (BufferedReader br = new BufferedReader(new FileReader(Constants.IN))) {
             String linea;
-            Set<Habitacion> hab = hotel.getHabitaciones();
-            Iterator<Habitacion> it = hab.iterator();
+            TreeSet<Habitacion> hab = (TreeSet<Habitacion>) panelHotel.getHotel().getHabitaciones();
 
             while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
+                String[] datos = linea.split(" ");
                 String letra = datos[0];
-                String tiempo = datos[1];
-                String num = datos[2];
-                String n = String.valueOf(num.charAt(0));
 
-                Thread.sleep(Long.parseLong(tiempo));
+                Thread.sleep(Long.parseLong(datos[1]));
 
-                if (letra.equals("P")) {
-                    while (it.hasNext()) {
+                switch (letra) {
+                    case "P":
+                        for (Habitacion h : hab) {
+                            if (Integer.parseInt(datos[2]) / 100 == (h.getNumero()) / 100) {
+                                h.setDisponible(EstadoHabitacion.AVERIADA);
+                            }
+                        }
+                        break;
+                    case "A":
+                        for (Habitacion h : hab) {
+                            if (Integer.parseInt(datos[2]) == (h.getNumero())) {
+                                h.setDisponible(EstadoHabitacion.AVERIADA);
+                            }
+                        }
+                        break;
+                }
+            }
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
+                /*
+                while (it.hasNext()) {
                         String x = String.valueOf(it.next().getNumero());
                         String l = String.valueOf(x.charAt(0));
                         if (l.equals(n)) {
-                            it.next().setDisponible(EstadoHabitacion.AVERIADA);
+                           it.forEachRemaining(habitacion -> habitacion.setDisponible(EstadoHabitacion.AVERIADA));
                         }
                     }
                 } else {
                     while (it.hasNext()) {
-                        String x = String.valueOf(it.next().getNumero());
-                        if(x.equals(num)){
+                        String y = String.valueOf(it.next().getNumero());
+                        if(y.equals(num)){
                             it.next().setDisponible(EstadoHabitacion.AVERIADA);
                         }
                     }
@@ -61,4 +80,7 @@ public class IncidenciasController implements Runnable {
                 throw new RuntimeException(e);
             }
         }
+
+                 */
     }
+}

@@ -30,14 +30,14 @@ public class HotelController implements Runnable {
             try (BufferedReader br = new BufferedReader(new FileReader(Constants.HAB))) {
                 String linea;
                 while ((linea = br.readLine()) != null) {
-                    String[] datos = linea.split(",");
+                    String[] datos = linea.split(" ");
                     int numero = Integer.parseInt(datos[0]);
-                    EstadoHabitacion estado = EstadoHabitacion.valueOf(datos[1]);
-                    TipoHabitacion tipo = TipoHabitacion.valueOf(datos[2]);
+                    EstadoHabitacion estado = EstadoHabitacion.valueOf(datos[1].toUpperCase());
+                    TipoHabitacion tipo = TipoHabitacion.valueOf(datos[2].toLowerCase());
                     int capacidad = Integer.parseInt(datos[3]);
                     double precio = Double.parseDouble(datos[4]);
                     Habitacion hab = new Habitacion(numero, estado, tipo, capacidad, precio);
-                    hotel.getHabitaciones().add(hab);
+                    panelHotel.getHotel().getHabitaciones().add(hab);
                     panelHotel.actualizar();
                     Thread.sleep( 500);
                 }

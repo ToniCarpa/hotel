@@ -10,6 +10,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.Iterator;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 public class Cliente implements Runnable {
     private int id;
@@ -18,8 +20,6 @@ public class Cliente implements Runnable {
     private TipoHabitacion tipoHabitacion;
     private int dias;
     private PanelHotel panelHotel;
-    private Hotel hotel;
-    private Habitacion habitacion;
 
 
     public Cliente(int id, String nombre, int personas, TipoHabitacion tipoHabitacion, int dias) {
@@ -41,10 +41,12 @@ public class Cliente implements Runnable {
     public void setId(int id) {
         this.id = id;
     }
+
     public String getNombre() {
         return nombre;
     }
-   public void setNombre(String nombre) {
+
+    public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
@@ -72,65 +74,45 @@ public class Cliente implements Runnable {
         this.dias = dias;
     }
 
-    private Habitacion buscHab(Cliente cliente) {
-        Set<Habitacion> hab = hotel.getHabitaciones();
-        Iterator<Habitacion> it = hab.iterator();
-        Habitacion h = null;
-        while (it.hasNext()) {
-            if (cliente.getTipoHabitacion().equals(it.next().getTipo()) &&
-                    cliente.getPersonas() == it.next().getCapacidad()) {
-                h = new Habitacion(it.next().getNumero(),
-                        it.next().getDisponible(), it.next().getTipo(),
-                        it.next().getCapacidad(), it.next().getPrecioNoche());
-            }
-        }
-        return h;
-    }
+    TreeSet<Habitacion> hab = (TreeSet<Habitacion>) panelHotel.getHotel().getHabitaciones();
+    Habitacion habitacion = null;
 
-    private boolean cliHab(Cliente c) {
-        Habitacion h = buscHab(c);
-        if (h != null) {
-            h.setDisponible(EstadoHabitacion.OCUPADA);
-            hotel.setDinero(hotel.getDinero() + h.getPrecioNoche() * c.getDias());
-            return true;
-        } else {
-            hotel.setPersonasPerdidas(hotel.getPersonasPerdidas() + 1);
-            hotel.setDinero(hotel.getDinero() - 1000);
-        }
-        return false;
-    }
-
-    private void averHab(Cliente cli) {
-        Habitacion h = buscHab(cli);
-        for (int i = 0; i < cli.getDias(); i++) {
-                if (h.getDisponible().equals(EstadoHabitacion.AVERIADA)) {
-                    if (buscHab(cli) == null) {
-                        hotel.setPersonasPerdidas(hotel.getPersonasPerdidas() + 1);
-                        hotel.setDinero(hotel.getDinero() + h.getPrecioNoche() * cli.getDias());
-                    }
+    private synchronized Habitacion getHab(Cliente cliente) {
+        try {
+            for (Habitacion h : hab) {
+                if (cliente.getTipoHabitacion().equals(h.getTipo()) && cliente.getPersonas() <= h.getCapacidad()) {
+                    h.setDisponible(EstadoHabitacion.OCUPADA);
+                    panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() + (h.getPrecioNoche() * cliente.getDias()));
+                    habitacion = h;
+                } else {
+                    panelHotel.getHotel().setPersonasPerdidas(panelHotel.getHotel().getPersonasPerdidas() + 1);
+                    panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() - 1000);
+                    habitacion = null;
                 }
             }
-        h.setDisponible(EstadoHabitacion.DISPONIBLE);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return habitacion;
     }
 
 
     @Override
     public void run() {
         try {
-            Cliente c = new Cliente();
-            if(cliHab(c)) {
-                for (int i = 0; i < c.getDias(); i++) {
+            if(getHab(c)!= null){
+            for (int i = 0; i <; i++) {
+                for (Habitacion h : hab) {
                     Thread.sleep(2000);
+                    if (h.getDisponible() == (EstadoHabitacion.OCUPADA)) {
+                        panelHotel.getHotel().setPersonasPerdidas(panelHotel.getHotel().getPersonasPerdidas() + 1);
+                        panelHotel.getHotel().setDinero(panelHotel.getHotel().getDinero() - 1000);
+                    }
                 }
-                Thread.sleep(2000);
-                averHab(c);
+                h.setDisponible(EstadoHabitacion.DISPONIBLE);
             }
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
     }
-
-
-
-    }
+}
