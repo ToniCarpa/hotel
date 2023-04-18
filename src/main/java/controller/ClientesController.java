@@ -23,26 +23,24 @@ public class ClientesController implements Runnable {
             String linea;
             while ((linea = br.readLine()) != null) {
                 String[] datos = linea.split(" ");
-                datos[2].length();
                 String[] habXpers = datos[2].split(",");
 
-                    for (int j = 0; j < habXpers.length; j++) {
-                        Thread t = new Thread(new Cliente(
-                                        Integer.parseInt(datos[0]),
-                                        datos[1],
-                                        Integer.parseInt(habXpers[j],
-                                                TipoHabitacion.valueOf(datos[3].toLowerCase(),
-                                                        Integer.parseInt(datos[4]),
-                                        panelHotel));
-                        t.sleep(500);
-                    }
+                for (int j = 0; j < habXpers.length; j++) {
+                    Thread t = new Thread(new Cliente(
+                            Integer.parseInt(datos[0]),
+                            datos[1],
+                            Integer.parseInt(habXpers[j]),
+                            TipoHabitacion.valueOf(datos[3].toLowerCase()),
+                            Integer.parseInt(datos[4]),
+                            panelHotel));
+                    t.sleep(500);
                 }
             }
-        } catch (
-                IOException e) {
-            System.err.format("Error de E/S: %s%n", e);
-        } catch (InterruptedException e) {
+        } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 }
+
+
+
